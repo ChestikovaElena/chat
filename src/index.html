@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Чат</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
+  </head>
+  <body>
+    <div class="overlay"></div>
+    <div class="reg">
+      <div class="reg__title">Авторизация</div>
+      <form class="reg__form">
+        <div class="reg__wrapper">
+          <input type="text" id="regLogin" class="reg__from-input" placeholder="Введите свой ник">	
+          <div class="reg__error" style="display:none;"></div>
+          <input type="submit" class="reg__submit" value="Войти">
+        </div>
+      </form>
+    </div>
+    <div class="new-avatar" style="display:none;">
+      <div class="new-avatar__upload">
+        Область для профильной фотографии
+      </div>
+      <div class="new-avatar__error" style="display:none;"></div>
+      <form class="new-avatar__form">
+        <input type="submit" class="new-avatar__form-submit" value="Загрузить">
+        <button class="new-avatar__form-close">Отмена</button>
+      </form>
+    </div>
+    <div class="left-column">
+      <div class="left__profile">
+        <div class="left__profile-img">
+          <a href="#" class="left__profile-link">
+            <img src="img/default.jpg" class="left__profile-avatar">
+          </a>
+        </div>
+        <!-- <div class="left__profile-user">
+          <div class="user-nick"></div>
+          <div class="user-status"></div>
+        </div> -->
+      </div>
+      <div class="left__users">
+        <div class="left__header">Участники</div>
+        <div class="left__content"></div>
+      </div>
+    </div>
+    <div class="right">
+      <div class="right__content">
+        <ul class="right__list"></ul>
+      </div>
+      <div class="right_controls">
+        <form class="right__form">
+          <input type="text" class="right__input" placeholder="Введите сообщение..." id="inputMessage">
+          <input type="submit" class="right__submit" value="Отправить" id="sendMessage">
+        </form>
+      </div>
+    </div>
+
+    <script type="text/x-handlebars-template" id="usersList">
+      <ul class="left__list">
+        {{#each list}}
+          <li class="left__item" data-list-user="{{login}}">{{name}}</li>
+        {{/each}}
+      </ul>
+    </script>
+
+    <script type="text/x-handlebars-template" id="messageChat">
+      <div class="right__avatar">
+        <img src="http://localhost:5000/photos/{{message.user.login}}" alt="{{message.user.name}}" class="right__avatar-img" data-avatar="{{message.user.login}}-avatar">		
+      </div>
+      <div class="right__data">
+        <div class="right__data-top">
+          <span class="right__username">{{message.user.name}}</span>
+          <span class="right__date">{{formatDate message.time}}</span>
+        </div>
+        <div class="right__data-bottom">
+          {{message.body}}
+        </div>
+      </div>
+    </script>
+    <script data-main="js/main" src="js/require.js"></script>
+  </body>
+</html>
