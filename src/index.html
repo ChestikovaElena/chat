@@ -3,18 +3,20 @@
   <head>
     <meta charset="UTF-8">
     <title>Чат</title>
-    <link rel="stylesheet" href="css/style.css">
+    <!-- <link rel="stylesheet" href="css/style.css"> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
   </head>
   <body>
-    <div class="overlay"></div>
-    <div class="reg">
-      <div class="reg__title">Авторизация</div>
-      <form class="reg__form">
-        <div class="reg__wrapper">
-          <input type="text" id="regLogin" class="reg__from-input" placeholder="Введите свой ник">	
-          <div class="reg__error" style="display:none;"></div>
-          <input type="submit" class="reg__submit" value="Войти">
+    <div class="overlay" data-role='overlay'></div>
+    <div class="login" data-role='login-form'>
+      <div class="login__title">Авторизация</div>
+      <div class="login__subtitle">Введите пожалуйста свой ник для дальнейшей авторизации</div>
+      <form class="login__form">
+        <div class="login__wrapper">
+          <input type="text" id="login" class="login__from-input" placeholder="Введите свой ник">	
+          <div class="login__error" style="display:none;"></div>
+          <input type="submit" id="login__submit" class="login__submit btn btn-default"
+             data-send='user' value="Войти">
         </div>
       </form>
     </div>
@@ -28,57 +30,175 @@
         <button class="new-avatar__form-close">Отмена</button>
       </form>
     </div>
-    <div class="left-column">
-      <div class="left__profile">
-        <div class="left__profile-img">
-          <a href="#" class="left__profile-link">
-            <img src="img/default.jpg" class="left__profile-avatar">
-          </a>
-        </div>
-        <!-- <div class="left__profile-user">
-          <div class="user-nick"></div>
-          <div class="user-status"></div>
+
+    <div class="wrapper">
+      <div class="left-column">
+        <!-- <div class="left__profile">
+          <div class="left__profile-img">
+            <a href="#" class="left__profile-link">
+              <img src="img/default.jpg" class="left__profile-avatar">
+            </a>
+          </div> -->
+          <!-- <div class="left__profile-user">
+            <div class="user-nick"></div>
+            <div class="user-status"></div>
+          </div>
         </div> -->
+        <ul class="left-column__users" id="users">
+          <!-- <div class="left__content"></div> -->
+        </ul>
       </div>
-      <div class="left__users">
-        <div class="left__header">Участники</div>
-        <div class="left__content"></div>
+      <div class="right-column">
+        <div class="right-column__header">
+          <div class="header__title">Чат</div>
+          <div class="subtitle">
+            <span class="count" data-role="countOfUsers"></span>
+            <span class="value" data-role="value"> </span>
+          </div>
+        </div>
+        <div class="right-column__content">
+          <ul class="right-column__list" data-role="messageList"></ul>
+        </div>
+        <div class="right-column__controls controls">
+          <form class="controls__form">
+            <input type="text" class="controls__input" placeholder="Введите сообщение..." id="inputMessage">
+            <input type="submit" class="controls__submit btn btn-default" data-send="message" value="Отправить" id="sendMessage">
+          </form>
+        </div>
       </div>
     </div>
-    <div class="right">
-      <div class="right__content">
-        <ul class="right__list"></ul>
-      </div>
-      <div class="right_controls">
-        <form class="right__form">
-          <input type="text" class="right__input" placeholder="Введите сообщение..." id="inputMessage">
-          <input type="submit" class="right__submit" value="Отправить" id="sendMessage">
-        </form>
+    <div class="hamburger" id="hamburger">
+      <span class="hamburger__plank"></span>
+      <span class="hamburger__plank"></span>
+      <span class="hamburger__plank"></span>
+    </div>
+    <div class="form__photo" data-role="form-photo" style="display: none">
+      <div class="form__photo--wrapper">
+        <div class="form__photo--title">Загрузка фото</div>
+        <div class="form__photo--row">
+          <a class="user__photo user__photo--form" data-role="user-photo">
+            <img src="./src/img/no-photo.png" alt="" class="item__photo--def">
+          </a>
+          <div class="form__photo--name"></div>
+        </div>
       </div>
     </div>
 
-    <script type="text/x-handlebars-template" id="usersList">
-      <ul class="left__list">
-        {{#each list}}
-          <li class="left__item" data-list-user="{{login}}">{{name}}</li>
-        {{/each}}
-      </ul>
+    <script type="text/x-handlebars-template" id="usersTemplate">
+      {{#each list}}
+        <li class="users__item" data-user="{{name}}">
+          <a class="user__photo" data-role="user-photo">
+            <img src="./src/img/no-photo.png" alt="" class="item__photo--def">
+          </a>
+          <div class="user-info">
+            <div class="user-name">{{name}}</div>
+            <div class="user-status">111</div>
+          </div>
+        </li>
+      {{/each}}
     </script>
 
-    <script type="text/x-handlebars-template" id="messageChat">
+    <script type="text/x-handlebars-template" id="simpleMessageTemplate">
+      <li class="message" data-name="{{name}}">
+        <div class="message--wrap">
+          <span class="message__span message__span--msg">
+            {{message}}
+          </span>
+          <span class="message__span message__span--time">
+            {{time}}
+          </span>
+        </div>
+      </li>
+    </script>
+
+    <script type="text/x-handlebars-template" id="simpleMessageRightTemplate">
+      <li class="message message--right" data-name="{{name}}">
+        <div class="message--wrap">
+          <span class="message__span message__span--msg">
+            {{message}}
+          </span>
+          <span class="message__span message__span--time">
+            {{time}}
+          </span>
+        </div>
+      </li>
+    </script>
+
+    <script type="text/x-handlebars-template" id="complexMessageTemplate">
+      <li class="right-column__item" data-name="{{name}}">
+        <div class="item__wrap">
+          <div class="item__wrap--column">
+            <a class="item__photo" data-role="user-photo">
+              <img src="./src/img/no-photo.png" alt="" class="item__photo--def">
+            </a>
+          </div>
+          <div class="item__wrap--column">
+            <div class="name">{{name}}</div>
+            <ul class="user__list">
+              <li class="message message--cloud" data-name="{{name}}">
+                <!-- <img src="./src/img/arrow.svg" class="message__arrow"> -->
+                <svg class="message__arrow">
+                  <use xlink:href="./src/img/arrow.svg#arrow"></use>
+                </svg>
+                <div class="message--wrap">
+                  <span class="message__span message__span--msg">
+                    {{message}}
+                  </span>
+                  <span class="message__span message__span--time">
+                    {{time}}
+                  </span>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </li>
+    </script>
+
+    <script type="text/x-handlebars-template" id="complexMessageRightTemplate">
+      <li class="right-column__item right-column__item--right" data-name="{{name}}">
+        <div class="item__wrap">
+          <div class="item__wrap--column">
+            <a class="item__photo item__photo--right" data-role="user-photo">
+              <img src="./src/img/no-photo.png" alt="" class="item__photo--def">
+            </a>
+          </div>
+          <div class="item__wrap--column">
+            <div class="name">{{name}}</div>
+            <ul class="user__list">
+              <li class="message message--right" data-name="{{name}}">
+                <!-- <img src="./src/img/arrow.svg" class="message__arrow"> -->
+                <svg class="message__arrow--right">
+                  <use xlink:href="./src/img/arrow.svg#arrow"></use>
+                </svg>
+                <div class="message--wrap">
+                  <span class="message__span message__span--msg">
+                    {{message}}
+                  </span>
+                  <span class="message__span message__span--time">
+                    {{time}}
+                  </span>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </li>
+    </script>
+    <!-- <script type="text/x-handlebars-template" id="messageChatTemplate">
       <div class="right__avatar">
-        <img src="http://localhost:5000/photos/{{message.user.login}}" alt="{{message.user.name}}" class="right__avatar-img" data-avatar="{{message.user.login}}-avatar">		
+        <img src='' alt="{{message.name}}" class="right__avatar-img" data-avatar="{{message.login}}-avatar">
       </div>
       <div class="right__data">
         <div class="right__data-top">
-          <span class="right__username">{{message.user.name}}</span>
+          <span class="right__username">{{message.name}}</span>
           <span class="right__date">{{formatDate message.time}}</span>
         </div>
         <div class="right__data-bottom">
-          {{message.body}}
+          {{msg}}
         </div>
       </div>
-    </script>
-    <script data-main="js/main" src="js/require.js"></script>
+    </script> -->
+    <!-- <script data-main="js/main" src="js/main.js"></script> -->
   </body>
 </html>

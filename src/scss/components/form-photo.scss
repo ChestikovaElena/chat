@@ -1,0 +1,41 @@
+.form__photo {
+  position: absolute;
+  z-index: 9999;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: $black;
+  padding: 30px 35px 40px;
+  width: 365px;
+
+  &:after {
+    position: absolute;
+    top: 10px;
+    right: 5px;
+    content: "\274c";
+    color: #747E87;
+    cursor: pointer;
+  }
+}
+
+.form__photo--wrapper {
+  display: flex;
+  flex-direction: column;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.form__photo--title {
+  margin-bottom: 40px;
+}
+
+.form__photo--row {
+  display: flex;
+  align-items: center;
+}
+
+.user__photo--form {
+  margin-right: 15px;
+  width: 85px;
+  height: 85px;
+}

@@ -1,0 +1,83 @@
+<!doctype html><html lang="en"><head><meta charset="UTF-8"><title>Чат</title><script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script><link href="f1051f2e2754c2d412f2.css" rel="stylesheet"></head><body><div class="overlay" data-role="overlay"></div><div class="login" data-role="login-form"><div class="login__title">Авторизация</div><div class="login__subtitle">Введите пожалуйста свой ник для дальнейшей авторизации</div><form class="login__form"><div class="login__wrapper"><input id="login" class="login__from-input" placeholder="Введите свой ник"><div class="login__error" style="display:none;"></div><input type="submit" id="login__submit" class="login__submit btn btn-default" data-send="user" value="Войти"></div></form></div><div class="new-avatar" style="display:none;"><div class="new-avatar__upload">Область для профильной фотографии</div><div class="new-avatar__error" style="display:none;"></div><form class="new-avatar__form"><input type="submit" class="new-avatar__form-submit" value="Загрузить"> <button class="new-avatar__form-close">Отмена</button></form></div><div class="wrapper"><div class="left-column"><ul class="left-column__users" id="users"></ul></div><div class="right-column"><div class="right-column__header"><div class="header__title">Чат</div><div class="subtitle"><span class="count" data-role="countOfUsers"></span> <span class="value" data-role="value"></span></div></div><div class="right-column__content"><ul class="right-column__list" data-role="messageList"></ul></div><div class="right-column__controls controls"><form class="controls__form"><input class="controls__input" placeholder="Введите сообщение..." id="inputMessage"> <input type="submit" class="controls__submit btn btn-default" data-send="message" value="Отправить" id="sendMessage"></form></div></div></div><div class="hamburger" id="hamburger"><span class="hamburger__plank"></span> <span class="hamburger__plank"></span> <span class="hamburger__plank"></span></div><div class="form__photo" data-role="form-photo" style="display: none"><div class="form__photo--wrapper"><div class="form__photo--title">Загрузка фото</div><div class="form__photo--row"><a class="user__photo user__photo--form" data-role="user-photo"><img src="./src/img/no-photo.png" alt="" class="item__photo--def"></a><div class="form__photo--name"></div></div></div></div><script type="text/x-handlebars-template" id="usersTemplate">{{#each list}}
+        <li class="users__item" data-user="{{name}}">
+          <a class="user__photo" data-role="user-photo">
+            <img src="./src/img/no-photo.png" alt="" class="item__photo--def">
+          </a>
+          <div class="user-info">
+            <div class="user-name">{{name}}</div>
+            <div class="user-status">111</div>
+          </div>
+        </li>
+      {{/each}}</script><script type="text/x-handlebars-template" id="simpleMessageTemplate"><li class="message" data-name="{{name}}">
+        <div class="message--wrap">
+          <span class="message__span message__span--msg">
+            {{message}}
+          </span>
+          <span class="message__span message__span--time">
+            {{time}}
+          </span>
+        </div>
+      </li></script><script type="text/x-handlebars-template" id="simpleMessageRightTemplate"><li class="message message--right" data-name="{{name}}">
+        <div class="message--wrap">
+          <span class="message__span message__span--msg">
+            {{message}}
+          </span>
+          <span class="message__span message__span--time">
+            {{time}}
+          </span>
+        </div>
+      </li></script><script type="text/x-handlebars-template" id="complexMessageTemplate"><li class="right-column__item" data-name="{{name}}">
+        <div class="item__wrap">
+          <div class="item__wrap--column">
+            <a class="item__photo" data-role="user-photo">
+              <img src="./src/img/no-photo.png" alt="" class="item__photo--def">
+            </a>
+          </div>
+          <div class="item__wrap--column">
+            <div class="name">{{name}}</div>
+            <ul class="user__list">
+              <li class="message message--cloud" data-name="{{name}}">
+                <!-- <img src="./src/img/arrow.svg" class="message__arrow"> -->
+                <svg class="message__arrow">
+                  <use xlink:href="./src/img/arrow.svg#arrow"></use>
+                </svg>
+                <div class="message--wrap">
+                  <span class="message__span message__span--msg">
+                    {{message}}
+                  </span>
+                  <span class="message__span message__span--time">
+                    {{time}}
+                  </span>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </li></script><script type="text/x-handlebars-template" id="complexMessageRightTemplate"><li class="right-column__item right-column__item--right" data-name="{{name}}">
+        <div class="item__wrap">
+          <div class="item__wrap--column">
+            <a class="item__photo item__photo--right" data-role="user-photo">
+              <img src="./src/img/no-photo.png" alt="" class="item__photo--def">
+            </a>
+          </div>
+          <div class="item__wrap--column">
+            <div class="name">{{name}}</div>
+            <ul class="user__list">
+              <li class="message message--right" data-name="{{name}}">
+                <!-- <img src="./src/img/arrow.svg" class="message__arrow"> -->
+                <svg class="message__arrow--right">
+                  <use xlink:href="./src/img/arrow.svg#arrow"></use>
+                </svg>
+                <div class="message--wrap">
+                  <span class="message__span message__span--msg">
+                    {{message}}
+                  </span>
+                  <span class="message__span message__span--time">
+                    {{time}}
+                  </span>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </li></script><script defer="defer" src="f1051f2e2754c2d412f2.js"></script></body></html>

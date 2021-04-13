@@ -1,0 +1,15 @@
+$black: #17212B;
+$blue: #5188C0;
+$grey: #7F91A4;
+
+@import './settings/layout';
+@import './components/style';
+@import './components/login';
+@import './components/button';
+@import './components/avatar';
+@import './components/left-column';
+@import './components/right-column';
+@import './components/message';
+@import './components/controls';
+@import './components/hamburger';
+@import './components/form-photo';

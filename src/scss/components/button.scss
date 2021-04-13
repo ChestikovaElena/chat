@@ -1,0 +1,20 @@
+.btn {
+  border: 1px solid transparent;
+  text-transform: uppercase;
+  cursor: pointer;
+  outline: none;
+}
+
+.btn-default {
+  background-color: $blue;
+  color: #fff;
+}
+
+.btn-transparent {
+  background-color: transparent;
+  color: $blue;
+}
+
+.btn-grey {
+  background-color: #1D2A3A;
+}

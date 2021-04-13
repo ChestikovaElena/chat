@@ -1,0 +1,26 @@
+.controls {
+  padding: 15px 10px;
+  background-color: $black;
+
+  &__form {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  &__input {
+    border: none;
+    outline: none;
+    background-color: transparent;
+    font-size: 14px;
+    font-weight: 300;
+    color: $grey;
+    width: 100%;
+  }
+}
+
+.controls__submit {
+  text-transform: none;
+  border-radius: 5px;
+  font-size: 14px;
+  padding: 5px 20px;
+}
