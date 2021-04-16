@@ -15,6 +15,20 @@
   }
 }
 
+.login__image {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background-color: #232F3D;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &--elem {
+    object-fit: cover;
+  }
+}
+
 .login__title {
   font-size: 24px;
   font-weight: 500;

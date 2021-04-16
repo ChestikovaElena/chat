@@ -18,3 +18,20 @@
 .btn-grey {
   background-color: #1D2A3A;
 }
+
+.btn--close {
+  color: #747E87;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 2;
+  transform: rotate(45deg);
+  font-size: 50px;
+  line-height: 1;
+  cursor: pointer;
+
+  &:hover {
+    color: $blue;
+    font-weight: 600;
+  }
+}

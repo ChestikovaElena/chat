@@ -1,13 +1,12 @@
 import './scss/main.scss';
 import View from './js/view';
 import { sanitize } from './js/utils';
-import UserPhoto from './js/userPhoto';
+import { readfiles, previewfile, set, onUpload} from './js/userPhoto';
 import Socket from '../socket/client';
 import { createNewElement, declOfNum, getFormatTime } from './js/helpers';
 
 const socket = new Socket('ws://localhost:8000');
 const msgList = document.querySelector('[data-role="messageList"]');
-// const messages = document.querySelector('[data-role=messageList]');
 
 socket.on('connection', () => {
     document.querySelector('[data-send="user"]')
@@ -42,6 +41,7 @@ socket.on('connection', () => {
             } else {
                 console.log('complexMessage');
                 msgList.innerHTML += View.render('complexMessageRight', msg);
+                setImage(currentName);
             };
 
             // msgList.lastElementChild.classList.add('right-column__item--right');
@@ -69,35 +69,129 @@ socket.on('connection', () => {
             document.querySelector('#inputMessage').value = '';
             msgList.scrollTop = msgList.scrollHeight;
         });
-    document.querySelector('#hamburger')
-        .addEventListener('click', (e) => {
-            console.log('ткнули ');
-        });
+
+    const hamburgerElem = document.querySelector('#hamburger');
+    const formPhoto = document.querySelector('[data-role="change-photo"]');
+    hamburgerElem.addEventListener('click', (e) => {
+        formPhoto.style.display = "block";
+        const currentName = msgList.getAttribute('data-name');
+        const photoElem = formPhoto.querySelector('[data-role="user-photo"]');
+        
+        photoElem.setAttribute('data-name', currentName);
+        setImage(currentName);
+        
+        photoElem.ondragover = function () {
+            photoElem.classList.add('hover');
+            return false;
+        };
+        photoElem.ondragend = function () {
+            photoElem.classList.remove('hover');
+            return false;
+        };
+        photoElem.ondrop = function (e) {
+            photoElem.classList.remove('hover');
+            e.preventDefault();
+            readfiles(e.dataTransfer.files, photoElem, socket);
+        };
+
+        formPhoto.querySelector('[data-role="save-photo"]').addEventListener('click', () => {
+            socket.send('image:save', JSON.stringify({name: currentName}));
+
+            const status = formPhoto.querySelector('[data-role="user-status"]');
+            const statusVal = status.value.trim();
+            if (statusVal) {
+                socket.send('user:status', JSON.stringify({name: currentName, status: status}));
+            };
+
+            formPhoto.style.display = 'none';
+            overlay.style.width="0%";
+            overlay.style.opacity="1";
+            setImage(currentName);
+        })
+
+        formPhoto.querySelector('[data-role="cancel-photo"]').addEventListener('click', () => {
+            socket.send('image:cancel', JSON.stringify({name: currentName}));
+            formPhoto.style.display = 'none';
+            overlay.style.width="0%";
+            overlay.style.opacity="1";
+            setDefaultImage(currentName);
+        })
+
+        const overlay = document.querySelector('[data-role="overlay"]');
+        overlay.style.width="100%";
+        overlay.style.opacity=".6";
+    });
+
+    formPhoto.querySelector('[data-role="form-close"]')
+        .addEventListener('click', () => {
+            closeForm(formPhoto);
+        })
+
+    const loadPhoto = document.querySelector('[data-role="load-photo"]');
     document.addEventListener('click', (e) => {
         e.preventDefault();
 
         if ((e.target.getAttribute('data-role') === "user-photo") || 
             (e.target.parentNode.getAttribute('data-role') === "user-photo")) {
-                const formPhoto = document.querySelector('[data-role="form-photo"]');
-                formPhoto.style.display = "block";
+                loadPhoto.style.display = "block";
                 const currentName = msgList.getAttribute('data-name');
-                formPhoto.querySelector('.form__photo--name').textContent = currentName;
+                loadPhoto.querySelector('.load__photo--name').textContent = currentName;
+                loadPhoto.querySelector('[data-role="user-photo"]').setAttribute('data-name', currentName);
+                const photoElem = loadPhoto.querySelector('[data-role="user-photo"]');
+                photoElem.setAttribute('data-name', currentName);
+
+                setImage(currentName);
+        
+                photoElem.ondragover = function () {
+                    photoElem.classList.add('hover');
+                    return false;
+                };
+                photoElem.ondragend = function () {
+                    photoElem.classList.remove('hover');
+                    return false;
+                };
+                photoElem.ondrop = function (e) {
+                    photoElem.classList.remove('hover');
+                    e.preventDefault();
+                    readfiles(e.dataTransfer.files, photoElem, socket);
+                };
+
+                loadPhoto.querySelector('[data-role="save-photo"]').addEventListener('click', () => {
+                    socket.send('image:save', JSON.stringify({name: currentName}));
+                    loadPhoto.style.display = 'none';
+                    overlay.style.width="0%";
+                    overlay.style.opacity="1";
+                    setImage(currentName);
+                })
+
+                loadPhoto.querySelector('[data-role="cancel-photo"]').addEventListener('click', () => {
+                    socket.send('image:cancel', JSON.stringify({name: currentName}));
+                    loadPhoto.style.display = 'none';
+                    overlay.style.width="0%";
+                    overlay.style.opacity="1";
+                    setDefaultImage(currentName);
+                })
+
 
                 const overlay = document.querySelector('[data-role="overlay"]');
                 overlay.style.width="100%";
                 overlay.style.opacity=".6";
         };
     });
-    // document.querySelector('[data-role="user__photo"]')
-    //     .addEventListener('click', (e) => {
-    //     e.preventDefault();
-    //     console.log('ok');
-        
-    // });
+
+    loadPhoto.querySelector('[data-role="form-close"]')
+    .addEventListener('click', () => {
+        closeForm(loadPhoto);
+    })
+
+    function closeForm(form) {
+        form.style.display = 'none';
+        const overlay = document.querySelector('[data-role="overlay"]');
+        overlay.style.width="0%";
+    }
 });
 
 socket.on('user:on', (data) => {
-    console.log(data);
     const newMsg = createNewElement(data.message, 'on');
     msgList.appendChild(newMsg);
 });
@@ -112,7 +206,29 @@ socket.on('usersList', (data) => {
     data = JSON.parse(data);
     const users = document.querySelector('#users');
     users.innerHTML = View.render('users', { list: data.list });
+    const dataUsers = data.list;
+    const currentName = msgList.getAttribute('data-name');
 
+    const photoElem = users.querySelector(`[data-role="user-photo"][data-name=${currentName}]`);
+        console.log('есть',photoElem);
+        if (photoElem) {
+        photoElem.ondragover = function () {
+            photoElem.classList.add('hover');
+            return false;
+        };
+        photoElem.ondragend = function () {
+            photoElem.classList.remove('hover');
+            return false;
+        };
+        photoElem.ondrop = function (e) {
+            photoElem.classList.remove('hover');
+            e.preventDefault();
+            readfiles(e.dataTransfer.files, photoElem, socket);
+        };
+    };
+    
+    dataUsers.forEach(user => { setImage(user.name) });
+    
     const countOfUsers = document.querySelector('[data-role="countOfUsers"]');
     const value = document.querySelector('[data-role="value"]');
     const count = data.list.length;
@@ -120,7 +236,32 @@ socket.on('usersList', (data) => {
         countOfUsers.textContent = count;
         value.textContent = declOfNum(count, ['участник', 'участника', 'участников']);
     }
+
+    // const photoElem = users.querySelector('[data-role="user-photo"]');
+    // console.log('есть',photoElem);
+    // if (photoElem) {
+    //     photoElem.ondragover = function () {
+    //         photoElem.classList.add('hover');
+    //         return false;
+    //     };
+    //     photoElem.ondragend = function () {
+    //         photoElem.classList.remove('hover');
+    //         return false;
+    //     };
+    //     photoElem.ondrop = function (e) {
+    //         photoElem.classList.remove('hover');
+    //         e.preventDefault();
+    //         readfiles(e.dataTransfer.files, photoElem, socket);
+    //     };
+    // };
 });
+
+socket.on('user:status', (data) => {
+    data = JSON.parse(data);
+    const userList = document.querySelector('#users');
+    const userElem = userList.querySelector('.users__item [data-name="data.name"]');
+    userElem.textContent = data.status;
+})
 
 socket.on('message:add', (data) => {
     const currentName = msgList.getAttribute('data-name');
@@ -129,15 +270,44 @@ socket.on('message:add', (data) => {
 
     if (!(currentName === data.name)) {
         if (data.name === prevMsg.getAttribute('data-name')) {
-            console.log(currentName);
-            console.log(prevMsg.getAttribute('data-name'));
-
             msgTextWrap.innerHTML += View.render('simpleMessage', data);
         } else {
-            console.log('complexMessage');
             msgList.innerHTML += View.render('complexMessage', data);
+            setImage(data.name);
         };
     };
-
+    
     msgList.scrollTop = msgList.scrollHeight;
 });
+
+socket.on('image:change', (data) => {
+    data = JSON.parse(data);
+    setImage(data.name);
+});
+
+function setDefaultImage(currentName) {
+    const filePath = `../src/img/no-photo.png`;
+    const divDuble = document.querySelectorAll(`[data-role="user-photo"][data-name="${currentName}"]`);
+    
+    divDuble.forEach(div => {
+        const imageElem = div.firstElementChild;
+        imageElem.setAttribute("src", filePath);
+    });
+};
+
+function setImage(userName) {
+    // let isExistFile = checkFileAsync(userName);
+    // console.log('isExistFile', isExistFile);
+    
+    // const fallBackPath = `../src/img/no-photo.png`;
+    // let filePath = (isExistFile) ? `../server/upload/${userName}.png` : fallBackPath;
+    let filePath = `../server/upload/${userName}.png`;
+    console.log(filePath);
+
+    const divDuble = document.querySelectorAll(`[data-role="user-photo"][data-name="${userName}"]`);
+    console.log('divDuble', divDuble);
+    divDuble.forEach(div => {
+        const imageElem = div.firstElementChild;
+        imageElem.setAttribute("src", filePath);
+    });
+}

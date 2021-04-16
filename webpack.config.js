@@ -13,8 +13,8 @@ module.exports = (env) => {
       filename: '[hash].js',
     },
     mode: isProd ? 'production' : 'development',
-    //devServer: {hot: true,open: true},
-    devServer: {port: 5050, open: true},
+    devServer: {hot: true,open: true},
+    // devServer: {port: 5050, open: true},
     module: {
       rules: [
         {

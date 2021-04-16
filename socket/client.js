@@ -11,8 +11,8 @@ export default class Socket extends EventEmmiter{
         });
         
         this.socket.addEventListener('message', ({ data }) => {
-            console.log(data.event);
-            console.log(data);
+            //console.log(data.event);
+            //console.log(data);
             data = JSON.parse(data);
             this.emit(data.event, data.payload);
         });

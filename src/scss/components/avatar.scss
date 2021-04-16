@@ -3,25 +3,42 @@
   // background: url('../../src/img/no-photo.png');
   // background-size: cover;
   border-radius: 50%;
+  border: 1px solid transparent;
   background-color: #232F3D;
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
+  overflow: hidden;
+
+  &.hover {
+    border-color: #fff;
+  }
 }
 
 .user__photo {
   width: 50px;
   height: 50px;
+  position: relative;
 }
 
 .item__photo {
   width: 35px;
   height: 35px;
   margin-top: 20px;
+  position: relative;
 
   &--right {
     margin-right: 0;
     margin-left: 15px;
   }
+}
+
+.item__photo--img {
+  object-fit: contain;
+}
+
+.item__photo--user {
+  object-fit: contain;
+  position: absolute;
 }

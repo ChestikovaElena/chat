@@ -9,6 +9,9 @@
   <body>
     <div class="overlay" data-role='overlay'></div>
     <div class="login" data-role='login-form'>
+      <div class="login__image" data-role="user-photo">
+        <img src="./src/img/vector.png" class="login__image--elem">
+      </div>
       <div class="login__title">Авторизация</div>
       <div class="login__subtitle">Введите пожалуйста свой ник для дальнейшей авторизации</div>
       <form class="login__form">
@@ -20,7 +23,7 @@
         </div>
       </form>
     </div>
-    <div class="new-avatar" style="display:none;">
+    <!-- <div class="new-avatar" style="display:none;">
       <div class="new-avatar__upload">
         Область для профильной фотографии
       </div>
@@ -29,7 +32,7 @@
         <input type="submit" class="new-avatar__form-submit" value="Загрузить">
         <button class="new-avatar__form-close">Отмена</button>
       </form>
-    </div>
+    </div> -->
 
     <div class="wrapper">
       <div class="left-column">
@@ -72,24 +75,46 @@
       <span class="hamburger__plank"></span>
       <span class="hamburger__plank"></span>
     </div>
-    <div class="form__photo" data-role="form-photo" style="display: none">
-      <div class="form__photo--wrapper">
-        <div class="form__photo--title">Загрузка фото</div>
+    <div class="load__photo" data-role="load-photo" style="display: none">
+      <div class="btn--close load__photo--btn" data-role="form-close">+</div>
+      <div class="load__photo--wrapper">
+        <div class="load__photo--title">Загрузка фото</div>
+        <div class="load__photo--row">
+          <div class="user__photo user__photo--form" data-role="user-photo">
+            <img  alt="" class="item__photo--user">
+            <img src="./src/img/no-photo.png" alt="" class="item__photo--img">
+          </div>
+          <div class="load__photo--name"></div>
+        </div>
+        <div class="load__photo--row row--controls">
+          <button class="btn btn--transparent load__photo--cancel" data-role="cancel-photo">Отмена</button>
+          <button class="btn btn--transparent load__photo--save" data-role="save-photo">Загрузить</button>
+        </div>
+      </div>
+    </div>
+    <div class="form__photo" data-role="change-photo" style="display: none">
+      <div class="btn--close form__photo--btn" data-role="form-close">+</div>
+      <div class="form__photo--wrap">
+        <div class="form__photo--element" data-role="user-photo">
+          <img  alt="" class="item__photo--big">
+          <img src="./src/img/no-photo.png" alt="" class="item__photo--img">
+        </div>
+        <div class="form__photo--subtitle">Область для профильной фотографии</div>
+        <input class="form__photo--status" data-role="user-status" type="text" placeholder="Введите свой статус">
         <div class="form__photo--row">
-          <a class="user__photo user__photo--form" data-role="user-photo">
-            <img src="./src/img/no-photo.png" alt="" class="item__photo--def">
-          </a>
-          <div class="form__photo--name"></div>
+          <button class="btn btn--transparent form__photo--cancel" data-role="cancel-photo">Отмена</button>
+          <button class="btn btn--transparent form__photo--save" data-role="save-photo">Сохранить</button>
         </div>
       </div>
     </div>
 
     <script type="text/x-handlebars-template" id="usersTemplate">
       {{#each list}}
-        <li class="users__item" data-user="{{name}}">
-          <a class="user__photo" data-role="user-photo">
-            <img src="./src/img/no-photo.png" alt="" class="item__photo--def">
-          </a>
+        <li class="users__item" data-name="{{name}}">
+          <div class="user__photo" data-role="user-photo" data-name="{{name}}">
+            <img  alt="" class="item__photo--user">
+            <img src="./src/img/no-photo.png" alt="" class="item__photo--img">
+          </div>
           <div class="user-info">
             <div class="user-name">{{name}}</div>
             <div class="user-status">111</div>
@@ -128,9 +153,10 @@
       <li class="right-column__item" data-name="{{name}}">
         <div class="item__wrap">
           <div class="item__wrap--column">
-            <a class="item__photo" data-role="user-photo">
-              <img src="./src/img/no-photo.png" alt="" class="item__photo--def">
-            </a>
+            <div class="item__photo" data-role="user-photo" data-name="{{name}}">
+              <img  alt="" class="item__photo--user">
+              <img src="./src/img/no-photo.png" alt="" class="item__photo--img">
+            </div>
           </div>
           <div class="item__wrap--column">
             <div class="name">{{name}}</div>
@@ -159,9 +185,10 @@
       <li class="right-column__item right-column__item--right" data-name="{{name}}">
         <div class="item__wrap">
           <div class="item__wrap--column">
-            <a class="item__photo item__photo--right" data-role="user-photo">
-              <img src="./src/img/no-photo.png" alt="" class="item__photo--def">
-            </a>
+            <div class="item__photo item__photo--right" data-role="user-photo" data-name="{{name}}">
+              <img alt="" class="item__photo--user">
+              <img src="./src/img/no-photo.png" alt="" class="item__photo--img">
+            </div>
           </div>
           <div class="item__wrap--column">
             <div class="name">{{name}}</div>

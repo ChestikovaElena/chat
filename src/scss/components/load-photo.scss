@@ -1,0 +1,54 @@
+.load__photo {
+  position: absolute;
+  z-index: 9999;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: $black;
+  padding: 30px 35px 40px;
+  width: 365px;
+  &--cancel {
+    margin-right: 10px;
+    color: #6BB2F2;
+    text-transform: uppercase;
+  }
+
+  &--save {
+    color: #6BB2F2;
+    text-transform: uppercase;
+    background-color: #1D2A3A;
+    padding: 10px;
+    border-radius: 2px;
+  }
+}
+
+// .load__photo--btn {
+//   margin-top: 10px;
+//   margin-right: 15px;
+// }
+
+.load__photo--wrapper {
+  display: flex;
+  flex-direction: column;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.load__photo--title {
+  margin-bottom: 40px;
+}
+
+.load__photo--row {
+  display: flex;
+  align-items: center;
+}
+
+.row--controls {
+  justify-content: flex-end;
+}
+
+.user__photo--form {
+  margin-right: 15px;
+  width: 85px;
+  height: 85px;
+}

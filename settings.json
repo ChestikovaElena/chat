@@ -1,0 +1,7 @@
+// {
+//   "proxy": {
+//     "/chat/upload-photo": {
+//       "target": "http://localhost:8000"
+//     }
+//   }
+// }
