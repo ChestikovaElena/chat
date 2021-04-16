@@ -100,7 +100,7 @@ socket.on('connection', () => {
             const status = formPhoto.querySelector('[data-role="user-status"]');
             const statusVal = status.value.trim();
             if (statusVal) {
-                socket.send('user:status', JSON.stringify({name: currentName, status: status}));
+                socket.send('user:status', JSON.stringify({name: currentName, status: statusVal}));
             };
 
             formPhoto.style.display = 'none';
@@ -227,7 +227,13 @@ socket.on('usersList', (data) => {
         };
     };
     
-    dataUsers.forEach(user => { setImage(user.name) });
+    const userList = document.querySelector('#users');
+    dataUsers.forEach(user => { 
+        setImage(user.name);
+        const userElem = userList.querySelector(`[data-name="${user.name}"]`);
+        const userStatusElem = userElem.querySelector('.user-status');
+        userStatusElem.textContent = user.status;
+     });
     
     const countOfUsers = document.querySelector('[data-role="countOfUsers"]');
     const value = document.querySelector('[data-role="value"]');
@@ -236,6 +242,14 @@ socket.on('usersList', (data) => {
         countOfUsers.textContent = count;
         value.textContent = declOfNum(count, ['участник', 'участника', 'участников']);
     }
+
+    
+    // console.log(dataUsers.name);
+    // const userElem = userList.querySelector(`[data-name="${dataUsers.name}"]`);
+    // console.log(userElem);
+    // const userStatusElem = userElem.querySelector('.user-status');
+        
+    // userStatusElem.textContent = data.status;
 
     // const photoElem = users.querySelector('[data-role="user-photo"]');
     // console.log('есть',photoElem);
@@ -259,8 +273,10 @@ socket.on('usersList', (data) => {
 socket.on('user:status', (data) => {
     data = JSON.parse(data);
     const userList = document.querySelector('#users');
-    const userElem = userList.querySelector('.users__item [data-name="data.name"]');
-    userElem.textContent = data.status;
+    const userElem = userList.querySelector(`[data-name="${data.name}"]`);
+    const userStatusElem = userElem.querySelector('.user-status');
+        
+    userStatusElem.textContent = data.status;
 })
 
 socket.on('message:add', (data) => {

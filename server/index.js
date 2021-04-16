@@ -45,7 +45,8 @@ ws.on('user:on', (data) => {
 
     user.name = data.message;
     users.push(user);
-    ws.broadcast('usersList', JSON.stringify({list: users.map((user) => ({'name': user.name}))}));
+    ws.broadcast('usersList', JSON.stringify({
+        list: users.map((user) => ({'name': user.name, 'status': user.status || ''}))}));
 });
 
 ws.on('message:add', (data) => {
@@ -54,6 +55,15 @@ ws.on('message:add', (data) => {
 
 ws.on('user:status', (data) =>{
     ws.broadcast('user:status', data);
+    data = JSON.parse(data);
+
+    const ind = users.findIndex((element) => {
+        return element.name === data.name;
+    });
+    if (ind !== -1) { 
+        users[ind].status = data.status;
+    }
+    console.log(users);
 });
 
 ws.on('image:сhange', (data) => {
