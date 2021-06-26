@@ -44,27 +44,6 @@ socket.on('connection', () => {
                 setImage(currentName);
             };
 
-            // msgList.lastElementChild.classList.add('right-column__item--right');
-            // prevMsg = msgList.lastElementChild;
-            // msgTextWrap = prevMsg.querySelector('.user__list');
-            
-            // const userPhotoElem = msgList.querySelector('[data-role="user-photo"]');
-            // console.log(userPhotoElem);
-            // if (!userPhotoElem.classList.contains('item__photo--right')) {
-            //     userPhotoElem.classList.add('item__photo--right');
-            // };
-
-            // const msgElem = msgTextWrap.lastElementChild;
-            // if (!msgElem.classList.contains('message--right')) {
-            //     msgElem.classList.add('message--right');
-            // };
-
-            // const msgArrow = msgElem.querySelector('.message__arrow');
-            // if ((msgArrow) && (!msgArrow.classList.contains('message__arrow--right'))) {
-            //     msgArrow.classList.add('message__arrow--right');
-            //     msgArrow.classList.remove('message__arrow');
-            // };
-
             socket.send('message:add', msg);
             document.querySelector('#inputMessage').value = '';
             msgList.scrollTop = msgList.scrollHeight;
@@ -242,32 +221,6 @@ socket.on('usersList', (data) => {
         countOfUsers.textContent = count;
         value.textContent = declOfNum(count, ['участник', 'участника', 'участников']);
     }
-
-    
-    // console.log(dataUsers.name);
-    // const userElem = userList.querySelector(`[data-name="${dataUsers.name}"]`);
-    // console.log(userElem);
-    // const userStatusElem = userElem.querySelector('.user-status');
-        
-    // userStatusElem.textContent = data.status;
-
-    // const photoElem = users.querySelector('[data-role="user-photo"]');
-    // console.log('есть',photoElem);
-    // if (photoElem) {
-    //     photoElem.ondragover = function () {
-    //         photoElem.classList.add('hover');
-    //         return false;
-    //     };
-    //     photoElem.ondragend = function () {
-    //         photoElem.classList.remove('hover');
-    //         return false;
-    //     };
-    //     photoElem.ondrop = function (e) {
-    //         photoElem.classList.remove('hover');
-    //         e.preventDefault();
-    //         readfiles(e.dataTransfer.files, photoElem, socket);
-    //     };
-    // };
 });
 
 socket.on('user:status', (data) => {
@@ -312,11 +265,6 @@ function setDefaultImage(currentName) {
 };
 
 function setImage(userName) {
-    // let isExistFile = checkFileAsync(userName);
-    // console.log('isExistFile', isExistFile);
-    
-    // const fallBackPath = `../src/img/no-photo.png`;
-    // let filePath = (isExistFile) ? `../server/upload/${userName}.png` : fallBackPath;
     let filePath = `../server/upload/${userName}.png`;
     console.log(filePath);
 
