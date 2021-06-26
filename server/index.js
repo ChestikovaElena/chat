@@ -96,11 +96,6 @@ ws.on('image:cancel', (data) => {
     data = JSON.parse(data);
     let filePath = path.resolve(__dirname, '../server/upload', `${data.name}.png`);
     filePath = filePath.replace(/\.\.\/|\//, '');
-    // const seconds = new Date().getTime();
-    // let newPath = path.resolve(__dirname, '../server/basket', `${data.name}_${seconds}.png`);
-    // newPath = newPath.replace(/\.\.\/|\//, '');
-    // fs.renameSync(filePath, newPath);
-    // console.log('перенесли файл');
     fs.writeFileSync(filePath,'',{encoding:'base64',flag:'w'});
 });
 
