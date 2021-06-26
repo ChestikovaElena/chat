@@ -32,27 +32,10 @@
   margin-bottom: 5px;
   position: relative;
 
-  // & > .message__arrow {
-  //   position: absolute;
-  //   //fill: #182633;
-  //   left: -7px;
-  //   bottom: 0;
-  //   display: block;
-  // }
-
-  &--right {
+   &--right {
     align-self: flex-end;
     background-color: #2B5279;
     position: relative;
-
-    // & > .message__arrow {
-    //   position: absolute;
-    //   display: block;
-    //   //fill: #2B5279;
-    //   //fill: red;
-    //   right: -7px;
-    //   bottom: 0;
-    // }
   }
 
   &__arrow {
