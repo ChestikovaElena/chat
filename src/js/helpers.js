@@ -19,16 +19,4 @@ function getFormatTime(date) {
   return `${date.getHours()}:${date.getMinutes()}`;
 }
 
-// function onUpload(data) {
-//   this.ui.userPhoto.set(data);
-
-//   fetch('/chat/upload-photo', {
-//     method: 'post',
-//     body: JSON.stringify({
-//       name: this.ui.userName.get(),
-//       image: data,
-//     }),
-//   });
-// }
-
 export { createNewElement, declOfNum, getFormatTime }
