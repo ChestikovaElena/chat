@@ -3,7 +3,6 @@
   <head>
     <meta charset="UTF-8">
     <title>Чат</title>
-    <!-- <link rel="stylesheet" href="css/style.css"> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.min.js"></script>
   </head>
   <body>
@@ -23,33 +22,10 @@
         </div>
       </form>
     </div>
-    <!-- <div class="new-avatar" style="display:none;">
-      <div class="new-avatar__upload">
-        Область для профильной фотографии
-      </div>
-      <div class="new-avatar__error" style="display:none;"></div>
-      <form class="new-avatar__form">
-        <input type="submit" class="new-avatar__form-submit" value="Загрузить">
-        <button class="new-avatar__form-close">Отмена</button>
-      </form>
-    </div> -->
-
+    
     <div class="wrapper">
       <div class="left-column">
-        <!-- <div class="left__profile">
-          <div class="left__profile-img">
-            <a href="#" class="left__profile-link">
-              <img src="img/default.jpg" class="left__profile-avatar">
-            </a>
-          </div> -->
-          <!-- <div class="left__profile-user">
-            <div class="user-nick"></div>
-            <div class="user-status"></div>
-          </div>
-        </div> -->
-        <ul class="left-column__users" id="users">
-          <!-- <div class="left__content"></div> -->
-        </ul>
+        <ul class="left-column__users" id="users"></ul>
       </div>
       <div class="right-column">
         <div class="right-column__header">
@@ -162,7 +138,6 @@
             <div class="name">{{name}}</div>
             <ul class="user__list">
               <li class="message message--cloud" data-name="{{name}}">
-                <!-- <img src="./src/img/arrow.svg" class="message__arrow"> -->
                 <svg class="message__arrow">
                   <use xlink:href="./src/img/arrow.svg#arrow"></use>
                 </svg>
@@ -194,7 +169,6 @@
             <div class="name">{{name}}</div>
             <ul class="user__list">
               <li class="message message--right" data-name="{{name}}">
-                <!-- <img src="./src/img/arrow.svg" class="message__arrow"> -->
                 <svg class="message__arrow--right">
                   <use xlink:href="./src/img/arrow.svg#arrow"></use>
                 </svg>
@@ -212,20 +186,5 @@
         </div>
       </li>
     </script>
-    <!-- <script type="text/x-handlebars-template" id="messageChatTemplate">
-      <div class="right__avatar">
-        <img src='' alt="{{message.name}}" class="right__avatar-img" data-avatar="{{message.login}}-avatar">
-      </div>
-      <div class="right__data">
-        <div class="right__data-top">
-          <span class="right__username">{{message.name}}</span>
-          <span class="right__date">{{formatDate message.time}}</span>
-        </div>
-        <div class="right__data-bottom">
-          {{msg}}
-        </div>
-      </div>
-    </script> -->
-    <!-- <script data-main="js/main" src="js/main.js"></script> -->
   </body>
 </html>
